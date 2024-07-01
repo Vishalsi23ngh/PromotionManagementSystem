@@ -27,12 +27,19 @@ public class ProductController {
         ProductResponse response =   productService.addProduct(productRequest);
         return new ResponseEntity<ProductResponse>(response , HttpStatus.CREATED);
     }
-//
-//    @PutMapping
-//    public Product  addLikes(@PathVariable int productId){
-//        return  productService.addLikes(productId);
-//    }
-//
+
+    @PostMapping("/addLikes")
+    public String  addLikes(@RequestParam Integer productId){
+        String response = productService.addLikes(productId);
+        return response;
+    }
+
+    @PostMapping("/addClicks")
+    public  String addClicks(@RequestParam Integer productId){
+        String ans = productService.addClicks(productId);
+        return ans;
+    }
+
 //    public Product  addComments(@PathVariable int productId){
 //        return  productService.addComments(productId);
 //    }

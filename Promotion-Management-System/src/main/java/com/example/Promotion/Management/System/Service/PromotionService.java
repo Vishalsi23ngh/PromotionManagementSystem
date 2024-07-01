@@ -1,5 +1,6 @@
 package com.example.Promotion.Management.System.Service;
 
+import com.example.Promotion.Management.System.Enums.ProductType;
 import com.example.Promotion.Management.System.Enums.UserType;
 import com.example.Promotion.Management.System.Exceptions.InvalidUserTypeException;
 import com.example.Promotion.Management.System.Repository.ProductRepository;
@@ -12,9 +13,13 @@ import com.example.Promotion.Management.System.model.Product;
 import com.example.Promotion.Management.System.model.Promotions;
 import com.example.Promotion.Management.System.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,11 +50,82 @@ public class PromotionService {
 
     }
 
+    public ResponseEntity addClicks(Integer promotionId) {
+
+        Optional<Promotions> optionalPromotions = promotionRepository.findById(promotionId);
+
+        if(optionalPromotions.isPresent()){
+            Promotions promotions = optionalPromotions.get();
+
+            Integer click = promotions.getClicks();
+            promotions.setClicks(click + 1) ;
+            promotionRepository.save(promotions);
+
+            return ResponseEntity.ok("clicks updated successfully");
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("promotion not found");
+        }
+
+    }
+
+    public ResponseEntity<String> addLikes(Integer promotionId) {
+        Optional<Promotions> optionalPromotions = promotionRepository.findById(promotionId);
+
+        if(optionalPromotions.isPresent()){
+            Promotions promotions = optionalPromotions.get();
+
+            Integer likes = promotions.getLikes();
+            promotions.setLikes(likes + 1); ;
+            promotionRepository.save(promotions);
+
+            return ResponseEntity.ok("likes updated successfully");
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("promotion not found");
+        }
+    }
+
+    public List<PromotionsResponse> popularPromotion() {
+        List<Promotions> promotions = promotionRepository.findAll();
+        return promotions.stream()
+                .sorted((p1, p2) -> Integer.compare(p2.getLikes(), p1.getLikes()))
+                .map(PromotionTransformer::promotionToPromotionResponse)
+                .collect(Collectors.toList());
+
+//          the explaination of the return  is written below
+//        Start with a list of promotions.
+//        Convert the list to a stream for processing.
+//        Sort the promotions in descending order by their like count.
+//        Transform each promotion into a response DTO.
+//        Collect the transformed items into a new list.
+
+    }
+
+    public List<PromotionsResponse> getPromotionByCategory(ProductType productType) {
+
+        List<Promotions> promotions = promotionRepository.findByProductType(productType);
+
+        if(promotions.isEmpty()){
+            throw  new RuntimeException("No promotion found with  this product type");
+        }
+        return promotions.stream()
+                .map(PromotionTransformer::promotionToPromotionResponse)
+                .collect(Collectors.toList());
+    }
+
+
+//    public ResponseEntity<String> addRating(Integer promotionId ,Integer val) {
+//        Optional<Promotions> optionalPromotions = promotionRepository.findById(promotionId);
+//        if(optionalPromotions.isPresent()){
+//            Promotions promotions = optionalPromotions.get();
+//
+//            promotions.setRating(val);
+//        }
+//    }
+
 
 //
 //    public PromotionsResponse updatePromotion(PromotionRequest promotionRequest, int promotionId) {
 //    }
 //
-//    public PromotionsResponse getAnalytics(int productId) {
-//    }
+//
 }

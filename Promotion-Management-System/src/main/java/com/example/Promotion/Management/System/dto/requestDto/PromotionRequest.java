@@ -1,5 +1,6 @@
 package com.example.Promotion.Management.System.dto.requestDto;
 
+import com.example.Promotion.Management.System.Enums.ProductType;
 import com.example.Promotion.Management.System.Enums.Promotion_Type;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -27,6 +28,6 @@ public class PromotionRequest {
 
     Promotion_Type promotion_type;
 
-    String productType;
+    ProductType productType;
 
 }

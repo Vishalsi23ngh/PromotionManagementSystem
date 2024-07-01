@@ -49,8 +49,34 @@ public class ProductService {
 
     }
 
-//    public Product addLikes(int productId) {
-//    }
+
+    public String addLikes(int productId) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+
+        Product product;
+        if(optionalProduct.isPresent()){
+            product = optionalProduct.get();
+            product.setNoOfLikes(product.getNoOfLikes() + 1);
+            productRepository.save(product);
+        }else{
+            return  "product with this id does not exist";
+        }
+
+        return  "like added to product successfully";
+    }
+
+    public String addClicks(Integer productId) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+
+        if(optionalProduct.isPresent()){
+            Product product = optionalProduct.get();
+            product.setNoOfClicks(product.getNoOfClicks() + 1);
+            productRepository.save(product);
+        }else{
+            return "product with this id does not exist";
+        }
+        return "click added successfully";
+    }
 //
 //    public Product addComments(int productId) {
 //    }

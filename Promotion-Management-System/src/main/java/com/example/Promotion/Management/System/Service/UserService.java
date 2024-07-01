@@ -6,6 +6,7 @@ import com.example.Promotion.Management.System.dto.requestDto.UserRequest;
 import com.example.Promotion.Management.System.dto.responseDto.UserResponse;
 import com.example.Promotion.Management.System.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -17,9 +18,16 @@ public class UserService {
 
     private  final UserRepository userRepository;
 
+    private final EmailService emailService;
     public  UserResponse  addUser(UserRequest userRequest) {
         User user = UserTransformer.userRequestToUser(userRequest);
         User savedUser = userRepository.save(user);
+
+        String email = userRequest.getEmailId();
+        String subject = "Welcome to Our Application";
+        String text = "Dear " + userRequest.getName() + ",\n\nThank you for registering with us.";
+        emailService.sendEmail(email, subject, text);
+
         return UserTransformer.userToUserResponse(savedUser);
     }
 

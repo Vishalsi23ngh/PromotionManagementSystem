@@ -1,5 +1,6 @@
 package com.example.Promotion.Management.System.dto.responseDto;
 
+import com.example.Promotion.Management.System.Enums.ProductType;
 import com.example.Promotion.Management.System.Enums.Promotion_Type;
 import com.example.Promotion.Management.System.model.Product;
 import com.example.Promotion.Management.System.model.User;
@@ -31,7 +32,7 @@ public class PromotionsResponse{
 
     Promotion_Type promotion_type;
 
-    String productType;
+    ProductType productType;
 
     double rating;
 

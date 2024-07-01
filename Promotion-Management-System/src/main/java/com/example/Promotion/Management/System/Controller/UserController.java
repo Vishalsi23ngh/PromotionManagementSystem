@@ -1,5 +1,6 @@
 package com.example.Promotion.Management.System.Controller;
 
+import com.example.Promotion.Management.System.Service.EmailService;
 import com.example.Promotion.Management.System.Service.ProductService;
 import com.example.Promotion.Management.System.Service.UserService;
 import com.example.Promotion.Management.System.dto.requestDto.UserRequest;
@@ -25,6 +26,7 @@ public class UserController {
         // You need to verify the user who is trying to create promotion is a business user or not
         // Promotion model
         UserResponse response = userService.addUser(userRequest);
+
         return new ResponseEntity<>(response , HttpStatus.CREATED);
     }
 

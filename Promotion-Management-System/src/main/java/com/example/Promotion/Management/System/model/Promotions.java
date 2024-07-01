@@ -1,14 +1,14 @@
 package com.example.Promotion.Management.System.model;
 
+import com.example.Promotion.Management.System.Enums.ProductType;
 import com.example.Promotion.Management.System.Enums.Promotion_Type;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
-import java.util.UUID;
+import java.util.List;
 
 @Entity
 @Getter
@@ -43,11 +43,13 @@ public class Promotions {
     @Enumerated(EnumType.STRING)
     Promotion_Type promotion_type;
 
-    String ProductType;
+    ProductType productType;
 
     Double rating;
 
-    Integer likes;
+    Integer likes = 0;
+
+    int clicks = 0;
 
 }
 

@@ -40,7 +40,7 @@ public class Product {
     @JsonIgnore
     List<Promotions> promotions;
 
-    int noOfLikes;
+    int noOfLikes ;
 
     String comments;
 
