@@ -22,9 +22,9 @@ public class UserHistoryController {
     private final UserHistoryService userHistoryService;
 
     @PostMapping("/addHistory")
-    public ResponseEntity<Void> addUserSearchHistory(@RequestBody UserHistoryRequest userHistoryRequest){
-        userHistoryService.addUSerHistory(userHistoryRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<String> addUserSearchHistory(@RequestBody UserHistoryRequest userHistoryRequest){
+        String response = userHistoryService.addUSerHistory(userHistoryRequest);
+        return new ResponseEntity<>(response ,HttpStatus.CREATED );
     }
 
     @GetMapping("/getHistory")

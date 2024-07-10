@@ -49,6 +49,8 @@ public class User {
     @JsonIgnore
     List<Promotions> promotionId;
 
+    boolean liked = false;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     List<Product> products;

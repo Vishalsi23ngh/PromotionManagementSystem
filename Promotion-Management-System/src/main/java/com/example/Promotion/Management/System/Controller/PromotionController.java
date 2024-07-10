@@ -2,9 +2,11 @@ package com.example.Promotion.Management.System.Controller;
 
 import com.example.Promotion.Management.System.Enums.ProductType;
 import com.example.Promotion.Management.System.Service.PromotionService;
+import com.example.Promotion.Management.System.Service.UserService;
 import com.example.Promotion.Management.System.dto.requestDto.PromotionRequest;
 import com.example.Promotion.Management.System.dto.responseDto.PromotionsResponse;
 import com.example.Promotion.Management.System.model.Promotions;
+import com.example.Promotion.Management.System.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ import java.util.List;
 public class PromotionController {
 
     private  final PromotionService promotionService;
+
+    private final UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<PromotionsResponse> addPromotion(@RequestBody PromotionRequest promotionRequest){
@@ -41,11 +45,16 @@ public class PromotionController {
     }
 
     @GetMapping("/promotionByProductType")
-    public  ResponseEntity<List<PromotionsResponse>> getPromotionBasedOnProductCategory(@RequestParam ProductType productType){
-        List<PromotionsResponse> responses = promotionService.getPromotionByCategory(productType);
+    public  ResponseEntity<List<Promotions>> getPromotionBasedOnProductCategory(@RequestParam ProductType productType){
+        List<Promotions> responses = promotionService.getPromotionByCategory(productType);
         return new ResponseEntity<>(responses,HttpStatus.OK);
     }
 
+    @GetMapping("/recommendations")
+    public ResponseEntity<List<Promotions>> getRecommendedPromotions(@RequestParam Integer userId) {
+        List<Promotions> recommendedPromotions = promotionService.getPromotionsBasedOnUserHistory(userId);
+        return ResponseEntity.ok(recommendedPromotions);
+    }
     @PostMapping("addClicks")
     public ResponseEntity<String> addNoOFClicks(@RequestParam Integer promotionId){
         ResponseEntity<String> response = promotionService.addClicks(promotionId);
@@ -53,8 +62,10 @@ public class PromotionController {
     }
 
     @PostMapping("addLikes")
-    public ResponseEntity<String> addLikes(@RequestParam Integer promotionId){
-        ResponseEntity<String> response = promotionService.addLikes(promotionId);
+    public ResponseEntity<String> addLikes(@RequestParam Integer promotionId ,@RequestParam Integer userId){
+        ResponseEntity<String> response = promotionService.addLikes(promotionId ,userId);
+
+
         return new ResponseEntity<>(response.getBody() ,response.getStatusCode());
     }
 

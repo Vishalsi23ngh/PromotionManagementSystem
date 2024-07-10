@@ -1,9 +1,11 @@
 package com.example.Promotion.Management.System.model;
 
+import com.example.Promotion.Management.System.Enums.ProductType;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -22,12 +24,18 @@ public class UserHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer historyId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     User user;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "promotionId", nullable = false)
     Promotions promotions;
+
+    @Enumerated(EnumType.STRING)
+    private ProductType productType;
+
+    private LocalDateTime interactionTime;
 
 
 }

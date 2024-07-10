@@ -6,12 +6,16 @@ import com.example.Promotion.Management.System.model.Promotions;
 import com.example.Promotion.Management.System.model.User;
 import com.example.Promotion.Management.System.model.UserHistory;
 
+import java.time.LocalDateTime;
+
 public class UserHistoryTransformer {
 
     public static UserHistory userHistoryRequestToUserHistory(UserHistoryRequest userHistoryRequest , User user, Promotions promotions){
         return UserHistory.builder()
                 .user(user)
                 .promotions(promotions)
+                .productType(promotions.getProductType())
+                .interactionTime(LocalDateTime.now())
                 .build();
     }
 

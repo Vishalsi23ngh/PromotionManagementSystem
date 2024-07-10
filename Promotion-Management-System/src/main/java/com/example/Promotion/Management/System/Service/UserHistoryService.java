@@ -1,6 +1,7 @@
 package com.example.Promotion.Management.System.Service;
 
 import com.example.Promotion.Management.System.Exceptions.UserNotExistException;
+import com.example.Promotion.Management.System.Repository.ProductRepository;
 import com.example.Promotion.Management.System.Repository.PromotionRepository;
 import com.example.Promotion.Management.System.Repository.UserHistoryRepository;
 import com.example.Promotion.Management.System.Repository.UserRepository;
@@ -9,6 +10,7 @@ import com.example.Promotion.Management.System.dto.requestDto.UserHistoryRequest
 import com.example.Promotion.Management.System.model.Promotions;
 import com.example.Promotion.Management.System.model.User;
 import com.example.Promotion.Management.System.model.UserHistory;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,8 @@ public class UserHistoryService {
     private  final PromotionRepository promotionRepository;
 
 
-    public void addUSerHistory(UserHistoryRequest userHistoryRequest) {
+
+    public String addUSerHistory(UserHistoryRequest userHistoryRequest) {
 
         Optional<User> optionalUser = userRepository.findById(userHistoryRequest.getUserId());
         Optional<Promotions> optionalPromotions = promotionRepository.findById(userHistoryRequest.getPromotionId());
@@ -45,6 +48,8 @@ public class UserHistoryService {
 
         UserHistory history = UserHistoryTransformer.userHistoryRequestToUserHistory(userHistoryRequest, user, promotions);
         userHistoryRepository.save(history);
+
+        return "history is added with promotionId "+history.getPromotions().getPromotionId() +"ans userId "+history.getUser().getUserId();
     }
 
 
