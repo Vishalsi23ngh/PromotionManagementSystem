@@ -38,7 +38,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    List<Promotions> promotions;
+    List<Promotions> promotions = new ArrayList<>();
 
     int noOfLikes ;
 

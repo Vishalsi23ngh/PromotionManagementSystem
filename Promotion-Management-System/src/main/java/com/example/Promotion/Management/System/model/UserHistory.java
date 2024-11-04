@@ -6,9 +6,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
 
 
 @Entity
@@ -29,13 +26,15 @@ public class UserHistory {
     User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "promotionId", nullable = false)
-    Promotions promotions;
+    @JoinColumn(name = "productId", nullable = false)
+    Product product;
 
     @Enumerated(EnumType.STRING)
     private ProductType productType;
 
     private LocalDateTime interactionTime;
+
+    boolean isPurchased = false;
 
 
 }

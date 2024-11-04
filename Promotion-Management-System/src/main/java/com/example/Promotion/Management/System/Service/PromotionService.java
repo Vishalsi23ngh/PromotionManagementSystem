@@ -76,12 +76,16 @@ public class PromotionService {
 
         Optional<Promotions> optionalPromotions = promotionRepository.findById(promotionId);
 
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(!optionalUser.isPresent()){
+            throw  new RuntimeException("no user exist with this id please login to like");
+        }
         User user = userRepository.findById(userId).get();
         boolean liked = user.isLiked();
         if(optionalPromotions.isPresent()){
             Promotions promotions = optionalPromotions.get();
             if(liked == false){
-                Integer likes = promotions.getLikes();
+                int likes = promotions.getLikes();
                 promotions.setLikes(likes + 1);
                 user.setLiked(true);
                 promotionRepository.save(promotions);
@@ -94,7 +98,7 @@ public class PromotionService {
 
             userRepository.save(user);
 
-            return ResponseEntity.ok("likes updated successfully");
+            return ResponseEntity.ok("likes updated successfully , totalLiked by people : "+ promotions.getLikes() );
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("promotion not found");
         }
@@ -133,17 +137,24 @@ public class PromotionService {
 
         // Fetch promotions matching these product types
         return promotionRepository.findByProductTypeIn(productTypes);
+
     }
 
 
-//    public ResponseEntity<String> addRating(Integer promotionId ,Integer val) {
-//        Optional<Promotions> optionalPromotions = promotionRepository.findById(promotionId);
-//        if(optionalPromotions.isPresent()){
-//            Promotions promotions = optionalPromotions.get();
-//
-//            promotions.setRating(val);
-//        }
-//    }
+
+    public ResponseEntity<String> addRating(Integer promotionId ,Integer val) {
+        Optional<Promotions> optionalPromotions = promotionRepository.findById(promotionId);
+        if(optionalPromotions.isPresent()){
+            Promotions promotions = optionalPromotions.get();
+
+            promotions.setRating(Double.valueOf(val));
+            promotionRepository.save(promotions);
+            return  ResponseEntity.ok("Rating updated successfully");
+        }else{
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("promotion with id : " +promotionId + " not found");
+        }
+
+    }
 
 
 //

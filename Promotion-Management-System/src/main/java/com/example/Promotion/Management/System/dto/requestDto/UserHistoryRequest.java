@@ -16,5 +16,5 @@ public class UserHistoryRequest {
 
    Integer userId;
 
-   Integer promotionId;
+   Integer productId;
 }

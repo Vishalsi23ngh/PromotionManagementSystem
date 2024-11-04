@@ -29,7 +29,6 @@ public class PromotionTransformer {
                .end_date(promotions.getEnd_date())
                .promotion_type(promotions.getPromotion_type())
                .productType(promotions.getProductType())
-               .likes(promotions.getLikes())
                .build();
     }
 }

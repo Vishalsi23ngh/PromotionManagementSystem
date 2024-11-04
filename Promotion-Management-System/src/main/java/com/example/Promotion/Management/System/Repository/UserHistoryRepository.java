@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface UserHistoryRepository extends JpaRepository<UserHistory,Integer> {
-    UserHistory save(UserHistory history);
 
 
     List<UserHistory> findByUserUserId(Integer userId);
@@ -18,5 +17,9 @@ public interface UserHistoryRepository extends JpaRepository<UserHistory,Integer
 
     @Query("SELECT uh FROM UserHistory uh WHERE uh.user = :user ORDER BY uh.interactionTime DESC")
     List<UserHistory> findTop10ByUserOrderByInteractionTimeDesc(User user);
+
+
+    List<UserHistory> findByUser_UserIdAndIsPurchasedTrue(Integer userId);
+
 }
 

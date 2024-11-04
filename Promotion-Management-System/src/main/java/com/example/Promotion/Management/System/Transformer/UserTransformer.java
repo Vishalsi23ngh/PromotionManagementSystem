@@ -29,7 +29,6 @@ public class UserTransformer {
                 .profession(user.getProfession())
                 .userType(user.getUserType())
                 .emailId(user.getEmailId())
-                .password(user.getPassword())
                 .build();
     }
 }

@@ -1,6 +1,8 @@
 package com.example.Promotion.Management.System.Repository;
 
 import com.example.Promotion.Management.System.Enums.ProductType;
+import com.example.Promotion.Management.System.Enums.Promotion_Type;
+import com.example.Promotion.Management.System.model.Product;
 import com.example.Promotion.Management.System.model.Promotions;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,5 +28,8 @@ public interface PromotionRepository extends JpaRepository<Promotions, Integer> 
     List<Promotions> findByProductTypeIn(List<ProductType> productTypes);
 
     Optional<Promotions>  findById(Integer promotionId);
+
+
+    List<Promotions> findByProductType(Promotion_Type promotion_type);
 }
 

@@ -77,6 +77,30 @@ public class ProductService {
         }
         return "click added successfully";
     }
+
+    public ProductResponse updateProduct(ProductRequest productRequest, int productId) {
+        Optional<User> optionalUser = userRepository.findById(productRequest.getUserId());
+
+        User user = optionalUser.get();
+        if(user.getUserType() != UserType.BUSINESS_USER){
+            throw  new InvalidUserTypeException("only business user can update the product information");
+        }
+
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if(optionalProduct.isEmpty()){
+            throw new RuntimeException(" no product exist with this id please enter valid product id");
+        }
+
+        // updating the product
+        Product savedProduct = optionalProduct.get();
+        savedProduct.setProductType(productRequest.getProductType());
+        savedProduct.setName(productRequest.getName());
+        savedProduct.setDescription(productRequest.getDescription());
+
+        productRepository.save(savedProduct);
+
+        return ProductTransformer.productToProductResponse(savedProduct);
+    }
 //
 //    public Product addComments(int productId) {
 //    }
